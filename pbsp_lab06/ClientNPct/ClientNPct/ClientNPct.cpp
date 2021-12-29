@@ -1,20 +1,44 @@
-﻿// ClientNPct.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
+﻿#include <iostream>
+#include <clocale>
+#include <ctime>
 
-#include <iostream>
+#include "ErrorMsgText.h"
+#include "Windows.h"
+
+#define STOP "STOP"
+#define NAME L"\\\\.\\pipe\\Tube"
+
+using namespace std;
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    setlocale(LC_ALL, "rus");
+
+    HANDLE cH;
+    DWORD lp;
+    char ibuf[50], obuf[50];
+
+    try {
+        cout << "ClientNPсt\n\n";
+
+        int countMessage;
+        cout << "Number of messages: ";
+        cin >> countMessage;
+
+        for (int i = 1; i <= countMessage; i++) {
+            string obufstr = "Hello from ClientNPct " + to_string(i);
+            strcpy_s(obuf, obufstr.c_str());
+
+            if (!CallNamedPipe(NAME, obuf, sizeof(obuf), ibuf, sizeof(ibuf), &lp, NMPWAIT_WAIT_FOREVER)) {
+                throw SetPipeError("CallNamedPipe: ", GetLastError());
+            }
+
+            cout << ibuf << endl;
+        }
+
+        system("pause");
+    }
+    catch (string ErrorPipeText) {
+        cout << endl << ErrorPipeText;
+    }
 }
-
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
-
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.

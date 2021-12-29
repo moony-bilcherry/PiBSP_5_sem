@@ -7,6 +7,7 @@
 
 // локайльный формат имени канала, "." - локальный пк
 #define NAME L"\\\\.\\pipe\\Tube"
+// в сетевом формате "." меняется на имя пк
 
 using namespace std;
 
@@ -25,9 +26,9 @@ int main()
         if ((sH = CreateNamedPipe(NAME, PIPE_ACCESS_DUPLEX, PIPE_TYPE_MESSAGE | PIPE_WAIT, 1, NULL, NULL, INFINITE, NULL)) == INVALID_HANDLE_VALUE) 
             throw SetPipeError("CreateNamedPipe: ", GetLastError());
 
-        cout << "Awaiting connection...\n";
-
         while (true) {
+            cout << "Awaiting connection...\n\n";
+
             // соединить сервер с каналом (соединяется с CreateFile на клиенте)
             if (!ConnectNamedPipe(sH, NULL)) 
                 throw SetPipeError("ConnectNamedPipe: ", GetLastError());

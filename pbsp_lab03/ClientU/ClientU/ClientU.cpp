@@ -48,11 +48,11 @@ int main()
                 throw  SetErrorMsgText("sendto: ", WSAGetLastError());
             }
 
-            if ((lobuf = recvfrom(cC, ibuf, sizeof(ibuf), NULL, (sockaddr*)&serv, &ls)) == SOCKET_ERROR) {
+            /*if ((lobuf = recvfrom(cC, ibuf, sizeof(ibuf), NULL, (sockaddr*)&serv, &ls)) == SOCKET_ERROR) {
                 throw  SetErrorMsgText("recvfrom:", WSAGetLastError());
-            }
+            }*/
 
-            cout << obuf << endl;
+            //cout << obuf << endl;
         }
         end = clock();
         string obuf = "";

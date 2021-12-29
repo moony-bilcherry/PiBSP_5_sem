@@ -44,7 +44,7 @@ int main()
         bool flag = true;
 
         while (true) {
-            Sleep(10);
+            
             if ((lb = recvfrom(sS, ibuf, sizeof(ibuf), NULL, (sockaddr*)&clientInfo, &lc)) == SOCKET_ERROR) {
                 throw  SetErrorMsgText("recvfrom: ", WSAGetLastError());
             }
@@ -55,9 +55,9 @@ int main()
                 }
             }
 
-            if ((lobuf = sendto(sS, ibuf, strlen(ibuf) + 1, NULL, (sockaddr*)&clientInfo, lc)) == SOCKET_ERROR) {
+            /*if ((lobuf = sendto(sS, ibuf, strlen(ibuf) + 1, NULL, (sockaddr*)&clientInfo, lc)) == SOCKET_ERROR) {
                 throw SetErrorMsgText("sendto: ", WSAGetLastError());
-            }
+            }*/
 
             if (strcmp(ibuf, "") == 0) {
                 end = clock();
